@@ -19,7 +19,7 @@ export default function BidsPage() {
     const [size, setSize] = useState(Number(searchParams.get('size')) || 20)
     const isMobile = useMemo(() => window.innerWidth <= 768, [])
 
-    const { bids, hasMore, loading, refreshBids } = useGetBids(size, !isMobile)
+    const { bids, hasMore, loading, refreshBids, addBid } = useGetBids(size, !isMobile)
     const { setFilters } = useFilter()
 
     const loadMore = () => {
@@ -39,7 +39,7 @@ export default function BidsPage() {
                     <div>
                         <div className='hidden md:block'>
                             //getting data from context
-                            <BidsTable bids={bids || []} loading={loading} loadMore={loadMore} hasMore={hasMore} />
+                            <BidsTable bids={bids || []} loading={loading} loadMore={loadMore} hasMore={hasMore} addBid={addBid} />
                         </div>
 
                         <div className='md:hidden'>

@@ -15,7 +15,7 @@ interface BidFilter {
 }
 
 export const useGetBids = (size: number, sendRequest: boolean = true) => {
-    const [bids, setBids] = useState<Bid[] | null>(null) //declare type of bids
+    const [bids, setBids] = useState<Bid[]>([]) // Ensure it's always an array
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
     const [hasMore, setHasMore] = useState<boolean>(true)
@@ -44,7 +44,7 @@ export const useGetBids = (size: number, sendRequest: boolean = true) => {
                 prevFiltersRef.current = filters
                 prevSizeRef.current = size
 
-                // getting bid data from api
+                // getting bid data from API
                 const response = await postData2<{ items: Bid[]; total: number }>(
                     'api/v1/bids/getbatch',
                     { size, filter: filters },
@@ -69,15 +69,16 @@ export const useGetBids = (size: number, sendRequest: boolean = true) => {
         } else {
             isMounted.current = true
         }
-    }, [size, filters, fetchBids])
+    }, [size, filters])
 
     const refreshBids = useCallback(() => {
         fetchBids(true)
     }, [fetchBids])
 
-    // Add a new bid to the current bids list
+    // Fix: Ensure addBid is always a valid function
     const addBid = useCallback((newBid: Bid) => {
-        setBids(prevBids => (prevBids ? [newBid, ...prevBids] : [newBid]))
+        setBids(prevBids => [newBid, ...(prevBids || [])]) // Ensure `prevBids` is always an array
+        console.log('added')
     }, [])
 
     return {
@@ -86,6 +87,6 @@ export const useGetBids = (size: number, sendRequest: boolean = true) => {
         error,
         hasMore,
         refreshBids,
-        addBid
+        addBid, // Ensure this is returned
     }
 }

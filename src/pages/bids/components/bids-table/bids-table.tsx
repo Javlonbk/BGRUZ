@@ -33,11 +33,12 @@ interface BidsTableProps {
     bids: Bid[] | any[]
     loadMore: () => void
     hasMore: boolean
-    loading: boolean
+    loading: boolean,
+    addBid: (bid: Bid) => void
 }
 
 // there bids data from father component
-function BidsTable({ bids, loadMore, hasMore, loading }: BidsTableProps) {
+function BidsTable({ bids, loadMore, hasMore, loading, addBid }: BidsTableProps) {
     const { filters, handleFilterChange } = useFilter()
 
     const [selectedBid, setSelectedBid] = useState<Partial<Bid> | null>(null)
@@ -138,7 +139,7 @@ function BidsTable({ bids, loadMore, hasMore, loading }: BidsTableProps) {
 
     return (
         <div>
-            <BidHeader setIsShortTable={setIsShortTable} isShortTable={isShortTable} />
+            <BidHeader setIsShortTable={setIsShortTable} addBid={addBid} isShortTable={isShortTable} />
 
             <ScrollArea>
                 <div
