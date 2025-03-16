@@ -53,7 +53,8 @@ interface OrganizationData {
     extraServices: { id: number; name: string; description: string }[]
 }
 
-const BidCreateForm = ({ modalClose }: { modalClose: () => void }) => {
+// use addBid function to add new bid to the list
+const BidCreateForm = ({ modalClose, addBid }: { modalClose: () => void; addBid: (bid: any) => void }) => {
     const [clients, setClients] = useState<{ organizationId: number; organizationName: string }[]>([])
     const [terminals, setTerminals] = useState<{ id: number; name: string; description: string }[]>([])
     const [warehouses, setWarehouses] = useState<{ id: number; name: string; description: string }[]>([])
@@ -223,10 +224,14 @@ const BidCreateForm = ({ modalClose }: { modalClose: () => void }) => {
                 console.error('Не найден токен авторизации')
                 return
             }
-            // @ts-expect-error надо исправить
-            const res = await postData('api/v1/bids', payload, token)
+            // post add bid and get the new bid response
+            const res = await postData('api/v1/bids', payload, token) 
+            
             modalClose()
-            // console.log('res', res)
+
+            addBid(res)
+
+            console.log('res', res)
         } catch (error: any) {
             console.error('Ошибка при создании заявки:', error)
 

@@ -38,6 +38,7 @@ export default function BidsPage() {
                 <FilterProvider onFiltersChange={setFilters}>
                     <div>
                         <div className='hidden md:block'>
+                            //getting data from context
                             <BidsTable bids={bids || []} loading={loading} loadMore={loadMore} hasMore={hasMore} />
                         </div>
 

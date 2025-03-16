@@ -15,7 +15,7 @@ interface BidFilter {
 }
 
 export const useGetBids = (size: number, sendRequest: boolean = true) => {
-    const [bids, setBids] = useState<Bid[] | null>(null)
+    const [bids, setBids] = useState<Bid[] | null>(null) //declare type of bids
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
     const [hasMore, setHasMore] = useState<boolean>(true)
@@ -44,6 +44,7 @@ export const useGetBids = (size: number, sendRequest: boolean = true) => {
                 prevFiltersRef.current = filters
                 prevSizeRef.current = size
 
+                // getting bid data from api
                 const response = await postData2<{ items: Bid[]; total: number }>(
                     'api/v1/bids/getbatch',
                     { size, filter: filters },
@@ -74,11 +75,17 @@ export const useGetBids = (size: number, sendRequest: boolean = true) => {
         fetchBids(true)
     }, [fetchBids])
 
+    // Add a new bid to the current bids list
+    const addBid = useCallback((newBid: Bid) => {
+        setBids(prevBids => (prevBids ? [newBid, ...prevBids] : [newBid]))
+    }, [])
+
     return {
         bids,
         loading,
         error,
         hasMore,
-        refreshBids
+        refreshBids,
+        addBid
     }
 }

@@ -35,6 +35,8 @@ interface BidsTableProps {
     hasMore: boolean
     loading: boolean
 }
+
+// there bids data from father component
 function BidsTable({ bids, loadMore, hasMore, loading }: BidsTableProps) {
     const { filters, handleFilterChange } = useFilter()
 
