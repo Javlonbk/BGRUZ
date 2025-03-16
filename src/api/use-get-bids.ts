@@ -15,7 +15,7 @@ interface BidFilter {
 }
 
 export const useGetBids = (size: number, sendRequest: boolean = true) => {
-    const [bids, setBids] = useState<Bid[]>([]) // Ensure it's always an array
+    const [bids, setBids] = useState<Bid[]>([]) 
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
     const [hasMore, setHasMore] = useState<boolean>(true)
@@ -75,9 +75,9 @@ export const useGetBids = (size: number, sendRequest: boolean = true) => {
         fetchBids(true)
     }, [fetchBids])
 
-    // Fix: Ensure addBid is always a valid function
+
     const addBid = useCallback((newBid: Bid) => {
-        setBids(prevBids => [newBid, ...(prevBids || [])]) // Ensure `prevBids` is always an array
+        setBids(prevBids => [newBid, ...(prevBids || [])]) 
         console.log('added')
     }, [])
 
@@ -87,6 +87,6 @@ export const useGetBids = (size: number, sendRequest: boolean = true) => {
         error,
         hasMore,
         refreshBids,
-        addBid, // Ensure this is returned
+        addBid, 
     }
 }
